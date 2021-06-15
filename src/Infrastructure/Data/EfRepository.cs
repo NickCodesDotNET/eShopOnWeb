@@ -17,6 +17,14 @@ namespace Microsoft.eShopWeb.Infrastructure.Data
     /// <typeparam name="T"></typeparam>
     public class EfRepository<T> : IAsyncRepository<T> where T : BaseEntity, IAggregateRoot
     {
+
+        /*
+         * IAsyncRepository allows for a standard repsitory pattern
+         * EfRepository<T> is generic and it works with some type T and we use generic constraints to define T  "where T : Ba...."
+         * In this case T must be a BaseEntity, it is important because BaseEntity has an ID property and some methods below rely on having the ID
+         * IAggregateRoot is another constraint, so we need both  BaseEntity, IAggregateRoot if we want to work with EfRepository<T>
+         */
+
         protected readonly CatalogContext _dbContext;
 
         public EfRepository(CatalogContext dbContext)

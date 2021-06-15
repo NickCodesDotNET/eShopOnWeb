@@ -29,9 +29,12 @@ namespace Microsoft.eShopWeb.ApplicationCore.Services
 
         public async Task CreateOrderAsync(int basketId, Address shippingAddress)
         {
+            // BasketWithItemsSpecification returns all items in a basket
             var basketSpec = new BasketWithItemsSpecification(basketId);
+            // pass basketSpec into repository method and it gives me back a basket
             var basket = await _basketRepository.FirstOrDefaultAsync(basketSpec);
 
+            // the idea of Guard class is to fail fast and not clutter your code with a bunch of exceptions
             Guard.Against.NullBasket(basketId, basket);
             Guard.Against.EmptyBasketOnCheckout(basket.Items);
 
@@ -46,9 +49,12 @@ namespace Microsoft.eShopWeb.ApplicationCore.Services
                 return orderItem;
             }).ToList();
 
+            // you could also use Factory pattern here... but we have all we need to pass into Order ctor
             var order = new Order(basket.BuyerId, shippingAddress, items);
 
+            //AddAsync also does Save Changes
             await _orderRepository.AddAsync(order);
+
         }
     }
 }

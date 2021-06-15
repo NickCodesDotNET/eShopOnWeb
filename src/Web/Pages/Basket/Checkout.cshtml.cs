@@ -26,17 +26,22 @@ namespace Microsoft.eShopWeb.Web.Pages.Basket
         private readonly IBasketViewModelService _basketViewModelService;
         private readonly IAppLogger<CheckoutModel> _logger;
 
+        //private readonly IAsyncRepository<Microsoft.eShopWeb.ApplicationCore.Entities.BasketAggregate.Basket>  _repo;
+
         public CheckoutModel(IBasketService basketService,
             IBasketViewModelService basketViewModelService,
             SignInManager<ApplicationUser> signInManager,
             IOrderService orderService,
-            IAppLogger<CheckoutModel> logger)
+            IAppLogger<CheckoutModel> logger 
+            //IAsyncRepository<Microsoft.eShopWeb.ApplicationCore.Entities.BasketAggregate.Basket> repo
+            )
         {
             _basketService = basketService;
             _signInManager = signInManager;
             _orderService = orderService;
             _basketViewModelService = basketViewModelService;
             _logger = logger;
+            //_repo = repo;
         }
 
         public BasketViewModel BasketModel { get; set; } = new BasketViewModel();
@@ -48,6 +53,9 @@ namespace Microsoft.eShopWeb.Web.Pages.Basket
 
         public async Task<IActionResult> OnPost(IEnumerable<BasketItemViewModel> items)
         {
+
+            
+
             try
             {
                 await SetBasketModelAsync();
